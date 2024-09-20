@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import db from 'src/firebase.server';
 import { UsersService } from 'src/users/users.service';
@@ -22,9 +26,7 @@ export class AuthService {
       .get();
 
     if (snapshot.docs.length == 0) {
-      return {
-        message: `Don't have any user who has username equal ${username}`,
-      };
+      throw new NotFoundException();
     }
 
     const data = snapshot.docs[0].data();

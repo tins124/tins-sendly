@@ -1,8 +1,10 @@
 import * as admin from 'firebase-admin';
 const serviceAccount =
   process.env.NODE_ENV === 'production'
-    ? require('../serviceAccount.json')
-    : require('../serviceAccount-staging.json');
+    ? // eslint-disable-next-line @typescript-eslint/no-require-imports
+      require('../serviceAccount.json')
+    : // eslint-disable-next-line @typescript-eslint/no-require-imports
+      require('../serviceAccount-staging.json');
 
 if (!serviceAccount) {
   throw new Error('Error: Missing serviceAccount.json file');

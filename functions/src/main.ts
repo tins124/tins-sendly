@@ -8,6 +8,7 @@ import * as express from 'express';
 import * as functions from 'firebase-functions';
 import { AppModule } from './app.module';
 import * as session from 'express-session';
+import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const expressServer = express();
@@ -22,6 +23,7 @@ async function bootstrap() {
     },
   );
   app.setGlobalPrefix('api');
+  app.use(cookieParser());
   app.use(
     session({
       secret: process.env.SESSION_SECRET,
@@ -29,7 +31,11 @@ async function bootstrap() {
       saveUninitialized: false,
     }),
   );
-  await app.listen(3000);
+  app.enableCors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+  });
+  await app.listen(3001);
   return expressServer;
 }
 
