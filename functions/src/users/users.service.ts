@@ -19,6 +19,6 @@ export class UsersService {
       throw new UnauthorizedException();
     }
 
-    return data[0].data();
+    return data[0].data().username;
   }
 }

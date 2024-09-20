@@ -1,6 +1,7 @@
-import { Controller, Get, Session, UseGuards } from '@nestjs/common';
+import { Controller, Get, Req, Session, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { Request } from 'express';
 
 @Controller('users')
 export class UsersController {
@@ -8,12 +9,16 @@ export class UsersController {
 
   @UseGuards(AuthGuard)
   @Get('profile')
-  async getProfile(@Session() session: Record<string, any>) {
-    const username = session.username;
+  async getProfile(@Req() request: Request) {
+    // console.log(session);
+    const username = request.cookies['username'];
     if (username) {
       const response = await this.usersService.getUser(username);
       return { message: 'Get ptofile successfully!', data: response };
     }
-    return { message: 'Please login before get information!', data: null };
+    return {
+      message: "Please login before get user's information!",
+      data: null,
+    };
   }
 }

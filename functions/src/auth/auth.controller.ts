@@ -35,7 +35,11 @@ export class AuthController {
       secure: true,
       sameSite: 'none',
     });
-    return { message: 'Sign in successfully!', username: result.username };
+    return {
+      message: 'Sign in successfully!',
+      username: result.username,
+      access_token: result.access_token,
+    };
   }
 
   @Post('sign-up')
